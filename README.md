@@ -1,14 +1,10 @@
-# Welcome to your CDK C# project!
+# diddy-backend
 
-This is a blank project for C# development with CDK.
+This is the backend for the Diddy mobile app. It contains the infrastructure as code, using the AWS .NET CDK, as well as the code for all the lambda functions.
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+## Structure
 
-It uses the [.NET Core CLI](https://docs.microsoft.com/dotnet/articles/core/) to compile and execute your project.
+The `./src` folder contains a VS solution called  `Diddy.sln`. The solution holds the projects for both the infrastructure and the lambda functions themselves.
 
-## Useful commands
-
-* `dotnet build src` compile this app
-* `cdk deploy`       deploy this stack to your default AWS account/region
-* `cdk diff`         compare deployed stack with current state
-* `cdk synth`        emits the synthesized CloudFormation template
+Inside the `./src/infrastructure` folder, you can find the CDK project that deploys all the resources - lambda functions, database tables, APIs, etc.
+Inside the `./src/lambdas` folder, you can find multiple C# projects for each set of lambdas (e.g. Authentication or Goals). 
