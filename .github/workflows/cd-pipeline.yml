@@ -45,7 +45,10 @@ jobs:
         echo "[profile eb-cli]" | sudo tee ~/.aws/config
         echo "aws_access_key_id=${{secrets.AWS_ACCESS_KEY}}" | sudo tee -a ~/.aws/config
         echo "aws_secret_access_key=${{secrets.AWS_SECRET_KEY}}" | sudo tee -a ~/.aws/config
-        
+    
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
     - name: Install CDK
       run: npm install aws-cdk
     - name: Synth the Stacks
