@@ -2,8 +2,12 @@ name: CI Pipeline
 
 on:
   pull_request:
-    branches: [ master ]
+    branches: [ master, develop ]
     paths:
+      - 'src/**'
+  push:
+    branches: [ master, develop ]
+    paths: 
       - 'src/**'
 
 jobs:
