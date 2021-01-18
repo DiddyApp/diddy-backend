@@ -47,7 +47,7 @@ jobs:
         echo "aws_secret_access_key=${{secrets.AWS_SECRET_KEY}}" | sudo tee -a ~/.aws/config
         
     - name: Install CDK
-      run: npm install -g aws-cdk
+      run: npm install aws-cdk
     - name: Synth the Stacks
       run: cdk synth
       working-directory: ${{env.working-directory}}
