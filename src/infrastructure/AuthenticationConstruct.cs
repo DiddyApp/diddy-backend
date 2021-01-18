@@ -12,7 +12,7 @@ namespace Infrastructure
     {
         public AuthenticationConstruct(Construct scope, string id) : base(scope, id)
         {
-            var userPool = new UserPool(scope, "UserPool");
+            var userPool = new UserPool(this, "UserPool");
             var userPoolClient = new UserPoolClient(scope, "UserPoolClient",
                 new UserPoolClientProps
                 {
@@ -28,7 +28,7 @@ namespace Infrastructure
                         Custom = true
                     }
                 });
-            var usersTable = new Table(scope, "UsersTable",
+            var usersTable = new Table(this, "UsersTable",
                 new TableProps
                 {
                     TableName = "Users",
@@ -40,7 +40,7 @@ namespace Infrastructure
                     },
                 });
 
-            var createAccountFunction = new Function(scope, "CreateAccount", new FunctionProps
+            var createAccountFunction = new Function(this, "CreateAccount", new FunctionProps
             {
                 Runtime = Runtime.DOTNET_CORE_3_1,
                 Code = Code.FromAsset("../lambdas/authentication/publish"),
