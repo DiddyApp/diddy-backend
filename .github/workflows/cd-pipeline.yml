@@ -1,0 +1,57 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ master, develop ]
+    paths: 
+      - 'src/**'
+      - '.github/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./src 
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
+    - name: Install dependencies
+      run: dotnet restore
+      working-directory: ${{env.working-directory}}
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+      working-directory: ${{env.working-directory}}
+      
+    - name: Publish Authentication Project
+      run: dotnet publish -o publish
+      working-directory: ${{env.working-directory}}/lambdas/authentication
+    - name: Publish Goals Project
+      run: dotnet publish -o publish
+      working-directory: ${{env.working-directory}}/lambdas/goals
+      
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+         aws-access-key-id: ${{secrets.AWS_ACCESS_KEY}}
+         aws-secret-access-key: ${{secrets.AWS_SECRET_KEY}}
+         aws-region: ${{ secrets.AWS_REGION }}
+    - name: Setup config file
+      run: | 
+        sudo mkdir ~/.aws
+        sudo touch ~/.aws/config
+        echo "[profile eb-cli]" | sudo tee ~/.aws/config
+        echo "aws_access_key_id=${{secrets.AWS_ACCESS_KEY}}" | sudo tee -a ~/.aws/config
+        echo "aws_secret_access_key=${{secrets.AWS_SECRET_KEY}}" | sudo tee -a ~/.aws/config
+        
+    - name: Synth the Stacks
+      run: cdk synth
+      working-directory: ${{env.working-directory}}
+    - name: Bootstrap
+      run: cdk bootstrap
+      worksing-directory: ${{env.working-directory}}
+    - name: Deploy changes
+      run: cdk deploy
+      working-directory: ${{env.working-directory}}
