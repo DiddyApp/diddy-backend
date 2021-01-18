@@ -50,7 +50,7 @@ jobs:
       with:
         node-version: '12.x'
     - name: Install CDK
-      run: npm install aws-cdk
+      run: npm install -g aws-cdk
     - name: Synth the Stacks
       run: cdk synth
       working-directory: ${{env.working-directory}}
