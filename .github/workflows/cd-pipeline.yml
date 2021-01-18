@@ -27,10 +27,10 @@ jobs:
       
     - name: Publish Authentication Project
       run: dotnet publish -o publish
-      working-directory: ${{env.working-directory}}/lambdas/authentication
+      working-directory: ${{env.working-directory}}/lambdas/Authentication
     - name: Publish Goals Project
       run: dotnet publish -o publish
-      working-directory: ${{env.working-directory}}/lambdas/goals
+      working-directory: ${{env.working-directory}}/lambdas/Goals
       
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
