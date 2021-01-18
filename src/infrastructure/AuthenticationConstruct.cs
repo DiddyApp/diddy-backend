@@ -43,7 +43,7 @@ namespace Infrastructure
             var createAccountFunction = new Function(scope, "CreateAccount", new FunctionProps
             {
                 Runtime = Runtime.DOTNET_CORE_3_1,
-                Code = Code.FromAsset("../lambdas/authentication/publish"),
+                Code = Code.FromAsset("lambdas/authentication/publish"),
                 Handler = "Authentication::Authentication.CreateAccountFunction::FunctionHandler"
             });
 
@@ -57,7 +57,7 @@ namespace Infrastructure
 
             //TODO: code for the AttachIdentity function; needs more research
 
-            var api = new RestApi(this, "Authentication-API", new RestApiProps
+            var api = new RestApi(scope, "Authentication-API", new RestApiProps
             {
                 RestApiName = "Authentication Service",
             });
