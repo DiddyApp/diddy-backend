@@ -6,6 +6,7 @@ namespace Infrastructure
     {
         internal LambdasStack(Construct scope, string id, IStackProps props = null) : base(scope, id, props)
         {
+            new AuthenticationConstruct(scope, $"{id}-authentication");
         }
     }
 }
