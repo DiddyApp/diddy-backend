@@ -12,7 +12,7 @@ namespace Infrastructure
     {
         public AuthenticationConstruct(Construct scope, string id) : base(scope, id)
         {
-            var userPool = new UserPool(this, "UserPool");
+            var userPool = new UserPool(scope, "UserPool");
             var userPoolClient = new UserPoolClient(scope, "UserPoolClient",
                 new UserPoolClientProps
                 {
@@ -28,7 +28,7 @@ namespace Infrastructure
                         Custom = true
                     }
                 });
-            var usersTable = new Table(this, "UsersTable",
+            var usersTable = new Table(scope, "UsersTable",
                 new TableProps
                 {
                     TableName = "Users",
@@ -40,10 +40,10 @@ namespace Infrastructure
                     },
                 });
 
-            var createAccountFunction = new Function(this, "CreateAccount", new FunctionProps
+            var createAccountFunction = new Function(scope, "CreateAccount", new FunctionProps
             {
                 Runtime = Runtime.DOTNET_CORE_3_1,
-                Code = Code.FromAsset("../lambdas/authentication/publish"),
+                Code = Code.FromAsset("lambdas/authentication/publish"),
                 Handler = "Authentication::Authentication.CreateAccountFunction::FunctionHandler"
             });
 
@@ -57,7 +57,7 @@ namespace Infrastructure
 
             //TODO: code for the AttachIdentity function; needs more research
 
-            var api = new RestApi(this, "Authentication-API", new RestApiProps
+            var api = new RestApi(scope, "Authentication-API", new RestApiProps
             {
                 RestApiName = "Authentication Service",
             });
