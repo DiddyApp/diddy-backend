@@ -26,7 +26,7 @@ namespace Infrastructure
                         AdminUserPassword = true,
                         UserSrp = true,
                         Custom = true
-                    }
+                    },
                 });
             var usersTable = new Table(scope, "UsersTable",
                 new TableProps
@@ -43,7 +43,7 @@ namespace Infrastructure
             var createAccountFunction = new Function(scope, "CreateAccount", new FunctionProps
             {
                 Runtime = Runtime.DOTNET_CORE_3_1,
-                Code = Code.FromAsset("lambdas/authentication/publish"),
+                Code = Code.FromAsset("lambdas/Authentication/publish"),
                 Handler = "Authentication::Authentication.CreateAccountFunction::FunctionHandler"
             });
 
@@ -59,7 +59,7 @@ namespace Infrastructure
 
             var api = new RestApi(scope, "Authentication-API", new RestApiProps
             {
-                RestApiName = "Authentication Service",
+                RestApiName = "Authentication Service"
             });
 
             var createAccountIntegration = new LambdaIntegration(createAccountFunction, new LambdaIntegrationOptions
