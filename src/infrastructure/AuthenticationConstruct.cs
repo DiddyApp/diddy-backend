@@ -26,7 +26,7 @@ namespace Infrastructure
                         AdminUserPassword = true,
                         UserSrp = true,
                         Custom = true
-                    }
+                    },
                 });
             var usersTable = new Table(scope, "UsersTable",
                 new TableProps
@@ -59,7 +59,7 @@ namespace Infrastructure
 
             var api = new RestApi(scope, "Authentication-API", new RestApiProps
             {
-                RestApiName = "Authentication Service",
+                RestApiName = "Authentication Service"
             });
 
             var createAccountIntegration = new LambdaIntegration(createAccountFunction, new LambdaIntegrationOptions
