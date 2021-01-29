@@ -58,5 +58,5 @@ jobs:
       run: cdk bootstrap
       working-directory: ${{env.working-directory}}
     - name: Deploy changes
-      run: cdk deploy
+      run: cdk deploy --require-approval never
       working-directory: ${{env.working-directory}}
