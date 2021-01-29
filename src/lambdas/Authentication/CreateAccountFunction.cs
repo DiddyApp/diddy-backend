@@ -9,6 +9,7 @@ using Common.LambdaUtils;
 using Authentication.Models;
 using Amazon.CognitoIdentityProvider.Model;
 using System.Threading.Tasks;
+using Amazon.Runtime.Internal.Util;
 
 namespace Authentication
 {
@@ -25,7 +26,7 @@ namespace Authentication
             var provider = new AmazonCognitoIdentityProviderClient();
             var userPool = new CognitoUserPool(_userPoolId, _userPoolClientId, provider);
 
-            await userPool.SignUpAsync(userData.Email, userData.Password, null, null);
+            await userPool.SignUpAsync(userData.Email, userData.Password, new Dictionary<string, string>(), new Dictionary<string, string>());
             await provider.ConfirmSignUpAsync(new ConfirmSignUpRequest()
             {
                 Username = userData.Email,
