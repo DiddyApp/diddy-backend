@@ -56,7 +56,7 @@ namespace Infrastructure
             createAccountFunction.AddToRolePolicy(new Amazon.CDK.AWS.IAM.PolicyStatement(new PolicyStatementProps
             {
                 Effect = Effect.ALLOW,
-                Actions = new[] { "cognito-idp:InitiateAuth", "cognito-idp:SignUp" },
+                Actions = new[] { "cognito-idp:InitiateAuth", "cognito-idp:SignUp", "cognito-idp:AdminConfirmSignUp" },
                 Resources = new[] { userPool.UserPoolArn },
             }));
 
