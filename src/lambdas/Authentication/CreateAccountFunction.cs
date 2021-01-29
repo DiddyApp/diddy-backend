@@ -27,11 +27,10 @@ namespace Authentication
             var userPool = new CognitoUserPool(_userPoolId, _userPoolClientId, provider);
 
             await userPool.SignUpAsync(userData.Email, userData.Password, new Dictionary<string, string>(), new Dictionary<string, string>());
-            await provider.ConfirmSignUpAsync(new ConfirmSignUpRequest()
+            await provider.AdminConfirmSignUpAsync(new AdminConfirmSignUpRequest
             {
                 Username = userData.Email,
-                ClientId = _userPoolClientId,
-                ConfirmationCode = "confirmation",
+                UserPoolId = userPool.PoolID
             });
             var authResult = await provider.InitiateAuthAsync(new InitiateAuthRequest
             {
