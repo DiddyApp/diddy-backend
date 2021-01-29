@@ -31,6 +31,7 @@ namespace Authentication
             {
                 Username = userData.Email,
                 ClientId = _userPoolClientId,
+                ConfirmationCode = "confirmation",
             });
             var authResult = await provider.InitiateAuthAsync(new InitiateAuthRequest
             {
