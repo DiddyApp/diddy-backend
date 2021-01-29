@@ -39,7 +39,8 @@ namespace Authentication
                     {"USERNAME", userData.Email },
                     {"PASSWORD", userData.Password }
                 },
-                ClientId = _userPoolClientId
+                ClientId = _userPoolClientId,
+                AuthFlow = AuthFlowType.USER_PASSWORD_AUTH
             });
 
             var response = new CreateAccountResponseModel
