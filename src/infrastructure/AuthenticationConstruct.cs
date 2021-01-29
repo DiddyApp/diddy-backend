@@ -44,7 +44,12 @@ namespace Infrastructure
             {
                 Runtime = Runtime.DOTNET_CORE_3_1,
                 Code = Code.FromAsset("lambdas/Authentication/publish"),
-                Handler = "Authentication::Authentication.CreateAccountFunction::FunctionHandler"
+                Handler = "Authentication::Authentication.CreateAccountFunction::FunctionHandler",
+                Environment = new Dictionary<string, string>
+                {
+                    {"USER_POOL_ID", userPool.UserPoolId },
+                    {"USER_POOL_CLIENT_ID", userPoolClient.UserPoolClientId },
+                }
             });
 
             usersTable.GrantReadWriteData(createAccountFunction);
