@@ -75,7 +75,7 @@ namespace Infrastructure
                 },
             });
 
-            api.Root.AddMethod("GET", createAccountIntegration);
+            api.Root.AddMethod("POST", createAccountIntegration);
         }
     }
 }
