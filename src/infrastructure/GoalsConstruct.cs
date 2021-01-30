@@ -36,8 +36,7 @@ namespace Infrastructure
             goalsTable.GrantReadWriteData(addGoalFunction);
             addGoalFunction.AddToRolePolicy(new PolicyStatement(new PolicyStatementProps
             {
-                Effect = Effect.ALLOW,
-                Actions = new[] { "cognito-idp:InitiateAuth", "cognito-idp:SignUp", "cognito-idp:AdminConfirmSignUp" },
+
             }));
 
             var addGoalApi = new RestApi(scope, "AddGoal-API", new RestApiProps
@@ -66,8 +65,7 @@ namespace Infrastructure
             goalsTable.GrantReadData(getGoalFunction);
             getGoalFunction.AddToRolePolicy(new PolicyStatement(new PolicyStatementProps
             {
-                Effect = Effect.ALLOW,
-                Actions = new[] { "cognito-idp:InitiateAuth", "cognito-idp:SignUp", "cognito-idp:AdminConfirmSignUp" },
+               
             }));
 
             var getGoalApi = new RestApi(scope, "GetGoal-API", new RestApiProps
@@ -96,8 +94,7 @@ namespace Infrastructure
             goalsTable.GrantReadWriteData(deleteGoalFunction);
             deleteGoalFunction.AddToRolePolicy(new PolicyStatement(new PolicyStatementProps
             {
-                Effect = Effect.ALLOW,
-                Actions = new[] { "cognito-idp:InitiateAuth", "cognito-idp:SignUp", "cognito-idp:AdminConfirmSignUp" },
+                
             }));
 
             var deleteGoalApi = new RestApi(scope, "DeleteGoal-API", new RestApiProps
@@ -126,8 +123,7 @@ namespace Infrastructure
             goalsTable.GrantReadWriteData(updateGoalFunction);
             updateGoalFunction.AddToRolePolicy(new PolicyStatement(new PolicyStatementProps
             {
-                Effect = Effect.ALLOW,
-                Actions = new[] { "cognito-idp:InitiateAuth", "cognito-idp:SignUp", "cognito-idp:AdminConfirmSignUp" },
+                
             }));
 
             var updateGoalApi = new RestApi(scope, "UpdateGoal-API", new RestApiProps
