@@ -13,23 +13,6 @@ namespace Infrastructure
     {
         public GoalsConstruct(Construct scope, string id) : base(scope, id)
         {
-            var userPool = new UserPool(scope, "UserPool");
-            var userPoolClient = new UserPoolClient(scope, "UserPoolClient",
-                new UserPoolClientProps
-                {
-                    UserPoolClientName = "User Pool Client",
-                    UserPool = userPool,
-                    GenerateSecret = false,
-                    PreventUserExistenceErrors = true,
-                    AuthFlows = new AuthFlow
-                    {
-                        UserPassword = true,
-                        AdminUserPassword = true,
-                        UserSrp = true,
-                        Custom = true
-                    },
-                });
-
             var goalsTable = new Table(scope, "GoalsTable",
                 new TableProps
                 {
@@ -48,11 +31,6 @@ namespace Infrastructure
                 Runtime = Runtime.DOTNET_CORE_3_1,
                 Code = Code.FromAsset("lambdas/Goals/publish"),
                 Handler = "Goals::Goals.AddGoalFunction::FunctionHandler",
-                Environment = new Dictionary<string, string>
-                {
-                    {"USER_POOL_ID", userPool.UserPoolId },
-                    {"USER_POOL_CLIENT_ID", userPoolClient.UserPoolClientId },
-                }
             });
 
             goalsTable.GrantReadWriteData(addGoalFunction);
@@ -60,7 +38,6 @@ namespace Infrastructure
             {
                 Effect = Effect.ALLOW,
                 Actions = new[] { "cognito-idp:InitiateAuth", "cognito-idp:SignUp", "cognito-idp:AdminConfirmSignUp" },
-                Resources = new[] { userPool.UserPoolArn },
             }));
 
             var addGoalApi = new RestApi(scope, "AddGoal-API", new RestApiProps
@@ -84,11 +61,6 @@ namespace Infrastructure
                 Runtime = Runtime.DOTNET_CORE_3_1,
                 Code = Code.FromAsset("lambdas/Goals/publish"),
                 Handler = "Goals::Goals.GetGoalFunction::FunctionHandler",
-                Environment = new Dictionary<string, string>
-                {
-                    {"USER_POOL_ID", userPool.UserPoolId },
-                    {"USER_POOL_CLIENT_ID", userPoolClient.UserPoolClientId },
-                }
             });
 
             goalsTable.GrantReadData(getGoalFunction);
@@ -96,7 +68,6 @@ namespace Infrastructure
             {
                 Effect = Effect.ALLOW,
                 Actions = new[] { "cognito-idp:InitiateAuth", "cognito-idp:SignUp", "cognito-idp:AdminConfirmSignUp" },
-                Resources = new[] { userPool.UserPoolArn },
             }));
 
             var getGoalApi = new RestApi(scope, "GetGoal-API", new RestApiProps
@@ -120,11 +91,6 @@ namespace Infrastructure
                 Runtime = Runtime.DOTNET_CORE_3_1,
                 Code = Code.FromAsset("lambdas/Goals/publish"),
                 Handler = "Goals::Goals.DeleteGoalFunction::FunctionHandler",
-                Environment = new Dictionary<string, string>
-                {
-                    {"USER_POOL_ID", userPool.UserPoolId },
-                    {"USER_POOL_CLIENT_ID", userPoolClient.UserPoolClientId },
-                }
             });
 
             goalsTable.GrantReadWriteData(deleteGoalFunction);
@@ -132,7 +98,6 @@ namespace Infrastructure
             {
                 Effect = Effect.ALLOW,
                 Actions = new[] { "cognito-idp:InitiateAuth", "cognito-idp:SignUp", "cognito-idp:AdminConfirmSignUp" },
-                Resources = new[] { userPool.UserPoolArn },
             }));
 
             var deleteGoalApi = new RestApi(scope, "DeleteGoal-API", new RestApiProps
@@ -156,11 +121,6 @@ namespace Infrastructure
                 Runtime = Runtime.DOTNET_CORE_3_1,
                 Code = Code.FromAsset("lambdas/Goals/publish"),
                 Handler = "Goals::Goals.UpdateGoalFunction::FunctionHandler",
-                Environment = new Dictionary<string, string>
-                {
-                    {"USER_POOL_ID", userPool.UserPoolId },
-                    {"USER_POOL_CLIENT_ID", userPoolClient.UserPoolClientId },
-                }
             });
 
             goalsTable.GrantReadWriteData(updateGoalFunction);
@@ -168,7 +128,6 @@ namespace Infrastructure
             {
                 Effect = Effect.ALLOW,
                 Actions = new[] { "cognito-idp:InitiateAuth", "cognito-idp:SignUp", "cognito-idp:AdminConfirmSignUp" },
-                Resources = new[] { userPool.UserPoolArn },
             }));
 
             var updateGoalApi = new RestApi(scope, "UpdateGoal-API", new RestApiProps
