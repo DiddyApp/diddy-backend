@@ -12,6 +12,6 @@ namespace Infrastructure
             ApiGatewayResources = new ApiGatewayResources(scope, $"{id}-ApiGateway");
         }
 
-        public ApiGatewayResources ApiGatewayResources { get; set; }
+        public ApiGatewayResources ApiGatewayResources { get; private set; }
     }
 }

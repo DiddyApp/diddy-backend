@@ -10,10 +10,7 @@ namespace Infrastructure.Authentication
         public ApiGatewayResources(Construct scope, string id, Amazon.CDK.AWS.APIGateway.Resource apiParent, LambdaResources lambdas)
             : base(scope, $"{id}-ApiGateway")
         {
-            var api = new RestApi(scope, "Authentication-API", new RestApiProps
-            {
-                RestApiName = "Authentication Service"
-            });
+            var authResource = apiParent.AddResource("/auth");
 
             var createAccountIntegration = new LambdaIntegration(lambdas.CreateAccountFunction, new LambdaIntegrationOptions
             {
@@ -23,8 +20,17 @@ namespace Infrastructure.Authentication
                 },
             });
 
-            var authResource = apiParent.AddResource("/auth");
-            authResource.AddMethod("POST", createAccountIntegration);
+            var loginIntegration = new LambdaIntegration(lambdas.LoginFunction, new LambdaIntegrationOptions
+            {
+                RequestTemplates = new Dictionary<string, string>
+                {
+                    ["application/json"] = "{ \"statusCode\": \"200\" }"
+                },
+            });
+
+
+            authResource.AddResource("/register").AddMethod("POST", createAccountIntegration);
+            authResource.AddResource("/login").AddMethod("POST", loginIntegration);
         }
     }
 }

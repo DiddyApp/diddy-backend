@@ -12,7 +12,7 @@ namespace Infrastructure.Authentication
                {
                    TableName = "Users",
                    BillingMode = BillingMode.PAY_PER_REQUEST, // will probably be changes to Provisioned in production
-                    PartitionKey = new Attribute
+                   PartitionKey = new Attribute
                    {
                        Name = "id",
                        Type = AttributeType.STRING

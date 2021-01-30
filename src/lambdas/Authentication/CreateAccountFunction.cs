@@ -4,12 +4,10 @@ using Amazon.CognitoIdentityProvider;
 using Amazon.Extensions.CognitoAuthentication;
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
-using Newtonsoft.Json;
 using Common.LambdaUtils;
 using Authentication.Models;
 using Amazon.CognitoIdentityProvider.Model;
 using System.Threading.Tasks;
-using Amazon.Runtime.Internal.Util;
 
 namespace Authentication
 {

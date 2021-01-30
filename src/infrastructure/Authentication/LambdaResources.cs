@@ -20,9 +20,21 @@ namespace Infrastructure.Authentication
                     {"USER_POOL_CLIENT_ID", environmentVariables["USER_POOL_CLIENT_ID"] },
                 }
             });
+
+            LoginFunction = new Function(scope, "Login", new FunctionProps
+            {
+                Runtime = Runtime.DOTNET_CORE_3_1,
+                Code = Code.FromAsset("lambdas/Authentication/publish"),
+                Handler = "Authentication::Authentication.LoginFunction::FunctionHandler",
+                Environment = new Dictionary<string, string>
+                {
+                    {"USER_POOL_ID", environmentVariables["USER_POOL_ID"] },
+                    {"USER_POOL_CLIENT_ID", environmentVariables["USER_POOL_CLIENT_ID"] },
+                }
+            });
         }
 
         public Function CreateAccountFunction { get; private set; }
-
+        public Function LoginFunction { get; private set; }
     }
 }
