@@ -10,7 +10,7 @@ namespace Infrastructure
         public static void Main(string[] args)
         {
             var app = new App();
-            new LambdasStack(app, "LambdasStack");
+            new DiddyStack(app, "DiddyStack");
             app.Synth();
         }
     }

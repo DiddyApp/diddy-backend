@@ -5,77 +5,35 @@ using Amazon.CDK.AWS.Cognito;
 using Amazon.CDK.AWS.DynamoDB;
 using Amazon.CDK.AWS.IAM;
 using Amazon.CDK.AWS.Lambda;
+using Infrastructure.Authentication;
 
 namespace Infrastructure
 {
     public class AuthenticationConstruct : Construct
     {
-        public AuthenticationConstruct(Construct scope, string id) : base(scope, id)
+        public AuthenticationConstruct(Construct scope, string id, Amazon.CDK.AWS.APIGateway.Resource apiParent)
+            : base(scope, id)
         {
-            var userPool = new UserPool(scope, "UserPool");
-            var userPoolClient = new UserPoolClient(scope, "UserPoolClient",
-                new UserPoolClientProps
+            var cognitoResources = new CognitoResources(scope, id);
+            var dynamodbResources = new DynamoDbResources(scope, id);
+            var lambdaResources = new LambdaResources(
+                scope,
+                id,
+                new Dictionary<string, string>
                 {
-                    UserPoolClientName = "User Pool Client",
-                    UserPool = userPool,
-                    GenerateSecret = false,
-                    PreventUserExistenceErrors = true,
-                    AuthFlows = new AuthFlow
-                    {
-                        UserPassword = true,
-                        AdminUserPassword = true,
-                        UserSrp = true,
-                        Custom = true
-                    },
+                    {"USER_POOL_ID", cognitoResources.UserPool.UserPoolId },
+                    {"USER_POOL_CLIENT_ID", cognitoResources.UserPoolClient.UserPoolClientId }
                 });
-            var usersTable = new Table(scope, "UsersTable",
-                new TableProps
-                {
-                    TableName = "Users",
-                    BillingMode = BillingMode.PAY_PER_REQUEST, // will probably be changes to Provisioned in production
-                    PartitionKey = new Attribute
-                    {
-                        Name = "id",
-                        Type = AttributeType.STRING
-                    },
-                });
+            var apiGatewayResources = new ApiGatewayResources(scope, id, apiParent, lambdaResources);
 
-            var createAccountFunction = new Function(scope, "CreateAccount", new FunctionProps
-            {
-                Runtime = Runtime.DOTNET_CORE_3_1,
-                Code = Code.FromAsset("lambdas/Authentication/publish"),
-                Handler = "Authentication::Authentication.CreateAccountFunction::FunctionHandler",
-                Environment = new Dictionary<string, string>
-                {
-                    {"USER_POOL_ID", userPool.UserPoolId },
-                    {"USER_POOL_CLIENT_ID", userPoolClient.UserPoolClientId },
-                }
-            });
-
-            usersTable.GrantReadWriteData(createAccountFunction);
-            createAccountFunction.AddToRolePolicy(new Amazon.CDK.AWS.IAM.PolicyStatement(new PolicyStatementProps
+            dynamodbResources.UsersTable.GrantReadWriteData(lambdaResources.CreateAccountFunction);
+            lambdaResources.CreateAccountFunction.AddToRolePolicy(new PolicyStatement(new PolicyStatementProps
             {
                 Effect = Effect.ALLOW,
                 Actions = new[] { "cognito-idp:InitiateAuth", "cognito-idp:SignUp", "cognito-idp:AdminConfirmSignUp" },
-                Resources = new[] { userPool.UserPoolArn },
+                Resources = new[] { cognitoResources.UserPool.UserPoolArn },
             }));
 
-            //TODO: code for the AttachIdentity function; needs more research
-
-            var api = new RestApi(scope, "Authentication-API", new RestApiProps
-            {
-                RestApiName = "Authentication Service"
-            });
-
-            var createAccountIntegration = new LambdaIntegration(createAccountFunction, new LambdaIntegrationOptions
-            {
-                RequestTemplates = new Dictionary<string, string>
-                {
-                    ["application/json"] = "{ \"statusCode\": \"200\" }"
-                },
-            });
-
-            api.Root.AddMethod("POST", createAccountIntegration);
         }
     }
 }
