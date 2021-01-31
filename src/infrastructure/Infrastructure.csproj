@@ -20,4 +20,9 @@
     <PackageReference Include="Amazon.CDK.AWS.DynamoDB" Version="1.85.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Authentication\" />
+    <Folder Include="Common\" />
+    <Folder Include="Goals\" />
+  </ItemGroup>
 </Project>

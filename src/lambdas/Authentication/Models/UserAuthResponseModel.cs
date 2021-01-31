@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Authentication.Models
 {
-    public class CreateAccountResponseModel
+    public class UserAuthResponseModel
     {
         public string UserId { get; set; }
 
