@@ -7,7 +7,8 @@ namespace Infrastructure.Authentication
 {
     public class LambdaResources : Construct
     {
-        public LambdaResources(Construct scope, string id, Dictionary<string, string> environmentVariables) : base(scope, $"{id}-Lambda")
+        public LambdaResources(Construct scope, string id, Dictionary<string, string> environmentVariables)
+            : base(scope, $"{id}-Lambda")
         {
             CreateAccountFunction = new Function(scope, "CreateAccount", new FunctionProps
             {
