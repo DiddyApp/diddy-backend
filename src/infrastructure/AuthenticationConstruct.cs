@@ -27,10 +27,18 @@ namespace Infrastructure
             var apiGatewayResources = new ApiGatewayResources(scope, id, apiParent, lambdaResources);
 
             dynamodbResources.UsersTable.GrantReadWriteData(lambdaResources.CreateAccountFunction);
+
             lambdaResources.CreateAccountFunction.AddToRolePolicy(new PolicyStatement(new PolicyStatementProps
             {
                 Effect = Effect.ALLOW,
                 Actions = new[] { "cognito-idp:InitiateAuth", "cognito-idp:SignUp", "cognito-idp:AdminConfirmSignUp" },
+                Resources = new[] { cognitoResources.UserPool.UserPoolArn },
+            }));
+
+            lambdaResources.LoginFunction.AddToRolePolicy(new PolicyStatement(new PolicyStatementProps
+            {
+                Effect = Effect.ALLOW,
+                Actions = new[] { "cognito-idp:InitiateAuth"},
                 Resources = new[] { cognitoResources.UserPool.UserPoolArn },
             }));
 
