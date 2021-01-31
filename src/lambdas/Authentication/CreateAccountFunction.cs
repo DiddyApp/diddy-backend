@@ -41,8 +41,9 @@ namespace Authentication
                 AuthFlow = AuthFlowType.USER_PASSWORD_AUTH
             });
 
-            var response = new CreateAccountResponseModel
+            var response = new UserAuthResponseModel
             {
+                UserId = userData.Email,
                 IdToken = authResult.AuthenticationResult.IdToken,
                 RefreshToken = authResult.AuthenticationResult.RefreshToken
             };

@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 using Amazon.Lambda.APIGatewayEvents;
 using Common.LambdaUtils;
 using Amazon.Lambda.Core;
+using Authentication.Models;
+using Amazon.CognitoIdentityProvider;
+using System.Collections.Generic;
 
 namespace Authentication
 {
@@ -13,7 +16,29 @@ namespace Authentication
 
         public async Task<APIGatewayProxyResponse> FunctionHandler(APIGatewayProxyRequest request, ILambdaContext context)
         {
-            return new APIGatewayProxyResponse().CreateSuccessResponse("test");
+            var userData = request.GetBody<LoginRequestModel>();
+
+            var provider = new AmazonCognitoIdentityProviderClient();
+
+            var authResult = await provider.InitiateAuthAsync(new Amazon.CognitoIdentityProvider.Model.InitiateAuthRequest
+            {
+                AuthParameters = new Dictionary<string, string>
+                {
+                    {"USERNAME", userData.Email },
+                    {"PASSWORD", userData.Password }
+                },
+                ClientId = _userPoolClientId,
+                AuthFlow = AuthFlowType.USER_PASSWORD_AUTH
+            });
+
+            var response = new UserAuthResponseModel
+            {
+                UserId = userData.Email,
+                IdToken = authResult.AuthenticationResult.IdToken,
+                RefreshToken = authResult.AuthenticationResult.RefreshToken
+            };
+
+            return new APIGatewayProxyResponse().CreateSuccessResponse(response);
         }
     }
 }
