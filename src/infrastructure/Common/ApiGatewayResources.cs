@@ -9,7 +9,7 @@ namespace Infrastructure.Common
         {
             var api = new RestApi(scope, "Diddy-API", new RestApiProps
             {
-                RestApiName = "Authentication Service"
+                RestApiName = "Diddy API"
             });
 
             var parent = api.Root.AddResource("api");
