@@ -13,7 +13,7 @@ namespace Infrastructure.Common
             });
 
             var parent = api.Root.AddResource("api");
-            parent.AddResource("v1");
+            ApiParent = parent.AddResource("v1");
         }
 
         public Amazon.CDK.AWS.APIGateway.Resource ApiParent { get; set; }
