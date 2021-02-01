@@ -20,10 +20,6 @@ namespace Infrastructure.Goals
             });
             goalsResource.AddMethod("POST", addGoalIntegration);
 
-            var getGoalApi = new RestApi(scope, "GetGoal-API", new RestApiProps
-            {
-                RestApiName = "GetGoal Service"
-            });
             var getGoalIntegration = new LambdaIntegration(lambdas.GetGoal, new LambdaIntegrationOptions
             {
                 RequestTemplates = new Dictionary<string, string>
@@ -33,10 +29,6 @@ namespace Infrastructure.Goals
             });
             goalsResource.AddMethod("GET", getGoalIntegration);
 
-            var deleteGoalApi = new RestApi(scope, "DeleteGoal-API", new RestApiProps
-            {
-                RestApiName = "DeleteGoal Service"
-            });
             var deleteGoalIntegration = new LambdaIntegration(lambdas.DeleteGoal, new LambdaIntegrationOptions
             {
                 RequestTemplates = new Dictionary<string, string>
@@ -46,10 +38,6 @@ namespace Infrastructure.Goals
             });
             goalsResource.AddMethod("DELETE", deleteGoalIntegration);
 
-            var updateGoalApi = new RestApi(scope, "UpdateGoal-API", new RestApiProps
-            {
-                RestApiName = "UpdateGoal Service"
-            });
             var updateGoalIntegration = new LambdaIntegration(lambdas.UpdateGoal, new LambdaIntegrationOptions
             {
                 RequestTemplates = new Dictionary<string, string>
