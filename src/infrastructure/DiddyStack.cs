@@ -9,6 +9,7 @@ namespace Infrastructure
         {
             var common = new CommonConstruct(this, $"{id}-common");
             new AuthenticationConstruct(this, $"{id}-authentication", common.ApiGatewayResources.ApiParent);
+            new GoalsConstruct(this, $"{id}-goals", common.ApiGatewayResources.ApiParent);
         }
     }
 }
