@@ -12,7 +12,7 @@ namespace Infrastructure.Common
                 RestApiName = "Authentication Service"
             });
 
-            var parent = api.Root.AddResource("/api");
+            var parent = api.Root.AddResource("api");
             parent.AddResource("v1");
         }
 
