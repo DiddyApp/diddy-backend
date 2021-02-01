@@ -10,7 +10,7 @@ namespace Infrastructure.Authentication
         public ApiGatewayResources(Construct scope, string id, Amazon.CDK.AWS.APIGateway.Resource apiParent, LambdaResources lambdas)
             : base(scope, $"{id}-ApiGateway")
         {
-            var authResource = apiParent.AddResource("/auth");
+            var authResource = apiParent.AddResource("auth");
 
             var createAccountIntegration = new LambdaIntegration(lambdas.CreateAccountFunction, new LambdaIntegrationOptions
             {
