@@ -2,7 +2,7 @@ name: CD Pipeline
 
 on:
   push:
-    branches: [ master, develop ]
+    branches: [ master ]
     paths: 
       - 'src/**'
       - '.github/**'
