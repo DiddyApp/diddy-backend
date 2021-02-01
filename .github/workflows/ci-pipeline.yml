@@ -2,12 +2,12 @@ name: CI Pipeline
 
 on:
   pull_request:
-    branches: [ master, develop ]
+    branches: [ main, develop ]
     paths:
       - 'src/**'
       - '.github/**'
   push:
-    branches: [ master, develop ]
+    branches: [ main, develop ]
     paths: 
       - 'src/**'
       - '.github/**'
