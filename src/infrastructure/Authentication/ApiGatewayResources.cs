@@ -29,8 +29,8 @@ namespace Infrastructure.Authentication
             });
 
 
-            authResource.AddResource("/register").AddMethod("POST", createAccountIntegration);
-            authResource.AddResource("/login").AddMethod("POST", loginIntegration);
+            authResource.AddResource("register").AddMethod("POST", createAccountIntegration);
+            authResource.AddResource("login").AddMethod("POST", loginIntegration);
         }
     }
 }

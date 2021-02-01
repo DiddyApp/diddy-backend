@@ -10,7 +10,7 @@ namespace Infrastructure.Goals
         public ApiGatewayResources(Construct scope, string id, Amazon.CDK.AWS.APIGateway.Resource apiParent, LambdaResources lambdas)
            : base(scope, $"{id}-ApiGateway")
         {
-            var goalsResource = apiParent.AddResource("/goals");
+            var goalsResource = apiParent.AddResource("goals");
             var addGoalIntegration = new LambdaIntegration(lambdas.AddGoal, new LambdaIntegrationOptions
             {
                 RequestTemplates = new Dictionary<string, string>
