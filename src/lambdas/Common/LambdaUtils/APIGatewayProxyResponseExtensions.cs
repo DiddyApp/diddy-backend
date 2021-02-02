@@ -11,17 +11,15 @@ namespace Common.LambdaUtils
         {
             var body = JsonConvert.SerializeObject(bodyContent);
 
-            var response = new APIGatewayProxyResponse
+            apiResponse.Body = body;
+            apiResponse.StatusCode = 200;
+            apiResponse.Headers = new Dictionary<string, string>
             {
-                Body = body,
-                StatusCode = 200,
-                Headers = new Dictionary<string, string>
-                {
-                    { "Content-Type", "application/json" },
-                    { "Access-Control-Allow-Origin", "*" }
-                }
+                { "Content-Type", "application/json" },
+                { "Access-Control-Allow-Origin", "*" }
             };
-            return response;
+
+            return apiResponse;
         }
     }
 }
