@@ -24,5 +24,6 @@
     <Folder Include="Authentication\" />
     <Folder Include="Common\" />
     <Folder Include="Goals\" />
+    <Folder Include="Utils\" />
   </ItemGroup>
 </Project>
