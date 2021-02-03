@@ -36,10 +36,7 @@ namespace Infrastructure.Goals
                     ["application/json"] = "{ \"statusCode\": \"200\" }"
                 },
             });
-            goalsResource.AddMethod("POST", addGoalIntegration, new MethodOptions
-            {
-                AuthorizationType = AuthorizationType.COGNITO,
-            });
+            goalsResource.AddMethod("POST", addGoalIntegration);
 
             var getGoalIntegration = new LambdaIntegration(lambdas.GetGoal, new LambdaIntegrationOptions
             {
@@ -48,10 +45,7 @@ namespace Infrastructure.Goals
                     ["application/json"] = "{ \"statusCode\": \"200\" }"
                 },
             });
-            goalsResource.AddMethod("GET", getGoalIntegration, new MethodOptions
-            {
-                AuthorizationType = AuthorizationType.IAM
-            });
+            goalsResource.AddMethod("GET", getGoalIntegration);
 
             var deleteGoalIntegration = new LambdaIntegration(lambdas.DeleteGoal, new LambdaIntegrationOptions
             {
@@ -60,10 +54,7 @@ namespace Infrastructure.Goals
                     ["application/json"] = "{ \"statusCode\": \"200\" }"
                 },
             });
-            goalsResource.AddMethod("DELETE", deleteGoalIntegration, new MethodOptions
-            {
-                AuthorizationType = AuthorizationType.IAM
-            });
+            goalsResource.AddMethod("DELETE", deleteGoalIntegration);
 
             var updateGoalIntegration = new LambdaIntegration(lambdas.UpdateGoal, new LambdaIntegrationOptions
             {
@@ -72,10 +63,7 @@ namespace Infrastructure.Goals
                     ["application/json"] = "{ \"statusCode\": \"200\" }"
                 },
             });
-            goalsResource.AddMethod("PUT", updateGoalIntegration, new MethodOptions
-            {
-                AuthorizationType = AuthorizationType.IAM
-            });
+            goalsResource.AddMethod("PUT", updateGoalIntegration);
 
         }
     }
