@@ -22,6 +22,7 @@ namespace Infrastructure.Goals
                 $"{id}-Goals-Auth",
                 new CfnAuthorizerProps
                 {
+                    Name = $"{id}-Goals-Authorizer",
                     Type = "COGNITO_USER_POOLS",
                     RestApiId = goalsResource.Api.RestApiId,
                     ProviderArns = new string[] { userPool.UserPoolId}
