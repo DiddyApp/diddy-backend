@@ -18,6 +18,17 @@ namespace Infrastructure.Goals
         {
             var goalsResource = apiParent.AddResource("goals");
 
+            var authorizer = new CfnAuthorizer(
+                this,
+                $"{id}-Goals-Auth",
+                new CfnAuthorizerProps
+                {
+                    Name = $"{id}-Goals-Authorizer",
+                    Type = "COGNITO_USER_POOLS",
+                    RestApiId = goalsResource.Api.RestApiId,
+                    ProviderArns = new string[] { userPool.UserPoolArn }
+                });
+
             var addGoalIntegration = new LambdaIntegration(lambdas.AddGoal, new LambdaIntegrationOptions
             {
                 RequestTemplates = new Dictionary<string, string>
@@ -28,12 +39,6 @@ namespace Infrastructure.Goals
             goalsResource.AddMethod("POST", addGoalIntegration, new MethodOptions
             {
                 AuthorizationType = AuthorizationType.COGNITO,
-                Authorizer = new RequestAuthorizer(this, $"{id}-Authorizer", new RequestAuthorizerProps
-                {
-                    AuthorizerName = $"{id}-Authorizer",
-                    IdentitySources = new string[] { "method.request.header.Authorization" },
-                    Handler = lambdas.AddGoal,
-                })
             });
 
             var getGoalIntegration = new LambdaIntegration(lambdas.GetGoal, new LambdaIntegrationOptions
@@ -50,7 +55,7 @@ namespace Infrastructure.Goals
                 {
                     AuthorizerName = $"{id}-Authorizer",
                     IdentitySources = new string[] { "method.request.header.Authorization" },
-                    Handler = lambdas.AddGoal,
+                    Handler = lambdas.GetGoal,
                 })
             });
 
@@ -68,7 +73,7 @@ namespace Infrastructure.Goals
                 {
                     AuthorizerName = $"{id}-Authorizer",
                     IdentitySources = new string[] { "method.request.header.Authorization" },
-                    Handler = lambdas.AddGoal,
+                    Handler = lambdas.DeleteGoal,
                 })
             });
 
@@ -86,7 +91,7 @@ namespace Infrastructure.Goals
                 {
                     AuthorizerName = $"{id}-Authorizer",
                     IdentitySources = new string[] { "method.request.header.Authorization" },
-                    Handler = lambdas.AddGoal,
+                    Handler = lambdas.UpdateGoal,
                 })
             });
 
