@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Amazon.CDK;
 using Amazon.CDK.AWS.APIGateway;
 using Amazon.CDK.AWS.Cognito;
+using Infrastructure.Utils;
 
 namespace Infrastructure.Goals
 {
@@ -40,6 +40,7 @@ namespace Infrastructure.Goals
             goalsResource.AddMethod("POST", addGoalIntegration, new MethodOptions
             {
                 AuthorizationType = AuthorizationType.COGNITO,
+                Authorizer = new CognitoAuthorizer { AuthorizerId = authorizer.LogicalId }
             });
 
             var getGoalIntegration = new LambdaIntegration(lambdas.GetGoal, new LambdaIntegrationOptions
@@ -51,7 +52,8 @@ namespace Infrastructure.Goals
             });
             goalsResource.AddMethod("GET", getGoalIntegration, new MethodOptions
             {
-                AuthorizationType = AuthorizationType.COGNITO
+                AuthorizationType = AuthorizationType.COGNITO,
+                Authorizer = new CognitoAuthorizer { AuthorizerId = authorizer.LogicalId }
             });
 
             var deleteGoalIntegration = new LambdaIntegration(lambdas.DeleteGoal, new LambdaIntegrationOptions
@@ -64,6 +66,7 @@ namespace Infrastructure.Goals
             goalsResource.AddMethod("DELETE", deleteGoalIntegration, new MethodOptions
             {
                 AuthorizationType = AuthorizationType.COGNITO,
+                Authorizer = new CognitoAuthorizer { AuthorizerId = authorizer.LogicalId }
             });
 
             var updateGoalIntegration = new LambdaIntegration(lambdas.UpdateGoal, new LambdaIntegrationOptions
@@ -75,7 +78,8 @@ namespace Infrastructure.Goals
             });
             goalsResource.AddMethod("PUT", updateGoalIntegration, new MethodOptions
             {
-                AuthorizationType = AuthorizationType.COGNITO
+                AuthorizationType = AuthorizationType.COGNITO,
+                Authorizer = new CognitoAuthorizer { AuthorizerId = authorizer.LogicalId }
             });
 
         }
