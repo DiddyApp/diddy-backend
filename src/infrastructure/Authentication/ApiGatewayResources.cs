@@ -11,13 +11,16 @@ namespace Infrastructure.Authentication
             : base(scope, $"{id}-ApiGateway")
         {
             var authResource = apiParent.AddResource("auth");
-
             var createAccountIntegration = new LambdaIntegration(lambdas.CreateAccountFunction, new LambdaIntegrationOptions
             {
                 RequestTemplates = new Dictionary<string, string>
                 {
                     ["application/json"] = "{ \"statusCode\": \"200\" }"
                 },
+            });
+            authResource.AddResource("register").AddMethod("POST", createAccountIntegration, new MethodOptions
+            {
+                AuthorizationType = AuthorizationType.NONE
             });
 
             var loginIntegration = new LambdaIntegration(lambdas.LoginFunction, new LambdaIntegrationOptions
@@ -27,10 +30,10 @@ namespace Infrastructure.Authentication
                     ["application/json"] = "{ \"statusCode\": \"200\" }"
                 },
             });
-
-
-            authResource.AddResource("register").AddMethod("POST", createAccountIntegration);
-            authResource.AddResource("login").AddMethod("POST", loginIntegration);
+            authResource.AddResource("login").AddMethod("POST", loginIntegration, new MethodOptions
+            {
+                AuthorizationType = AuthorizationType.NONE
+            });
         }
     }
 }
