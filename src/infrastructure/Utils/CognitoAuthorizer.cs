@@ -6,5 +6,6 @@ namespace Infrastructure.Utils
     public class CognitoAuthorizer : IAuthorizer
     {
         public string AuthorizerId { get; set; }
+        public AuthorizationType AuthorizationType { get { return AuthorizationType.COGNITO; } }
     }
 }
