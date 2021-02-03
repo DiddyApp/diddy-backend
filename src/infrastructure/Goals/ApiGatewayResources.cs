@@ -40,7 +40,7 @@ namespace Infrastructure.Goals
             goalsResource.AddMethod("POST", addGoalIntegration, new MethodOptions
             {
                 AuthorizationType = AuthorizationType.COGNITO,
-                Authorizer = new CognitoAuthorizer { AuthorizerId = authorizer.LogicalId }
+                Authorizer = new CognitoAuthorizer { AuthorizerId = authorizer.Ref }
             });
 
             var getGoalIntegration = new LambdaIntegration(lambdas.GetGoal, new LambdaIntegrationOptions
@@ -53,7 +53,7 @@ namespace Infrastructure.Goals
             goalsResource.AddMethod("GET", getGoalIntegration, new MethodOptions
             {
                 AuthorizationType = AuthorizationType.COGNITO,
-                Authorizer = new CognitoAuthorizer { AuthorizerId = authorizer.LogicalId }
+                Authorizer = new CognitoAuthorizer { AuthorizerId = authorizer.Ref }
             });
 
             var deleteGoalIntegration = new LambdaIntegration(lambdas.DeleteGoal, new LambdaIntegrationOptions
@@ -66,7 +66,7 @@ namespace Infrastructure.Goals
             goalsResource.AddMethod("DELETE", deleteGoalIntegration, new MethodOptions
             {
                 AuthorizationType = AuthorizationType.COGNITO,
-                Authorizer = new CognitoAuthorizer { AuthorizerId = authorizer.LogicalId }
+                Authorizer = new CognitoAuthorizer { AuthorizerId = authorizer.Ref }
             });
 
             var updateGoalIntegration = new LambdaIntegration(lambdas.UpdateGoal, new LambdaIntegrationOptions
@@ -79,7 +79,7 @@ namespace Infrastructure.Goals
             goalsResource.AddMethod("PUT", updateGoalIntegration, new MethodOptions
             {
                 AuthorizationType = AuthorizationType.COGNITO,
-                Authorizer = new CognitoAuthorizer { AuthorizerId = authorizer.LogicalId }
+                Authorizer = new CognitoAuthorizer { AuthorizerId = authorizer.Ref }
             });
 
         }
