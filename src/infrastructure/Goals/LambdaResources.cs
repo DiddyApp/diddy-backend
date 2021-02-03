@@ -43,11 +43,11 @@ namespace Infrastructure.Goals
                 }
             });
 
-            UpdateGoal = new Function(scope, "UpdateGoal", new FunctionProps
+            UpdateGoal = new Function(scope, "UpdateCounter", new FunctionProps
             {
                 Runtime = Runtime.DOTNET_CORE_3_1,
                 Code = Code.FromAsset("lambdas/Goals/publish"),
-                Handler = "Goals::Goals.UpdateGoalFunction::FunctionHandler",
+                Handler = "Goals::Goals.UpdateCounterFunction::FunctionHandler",
                 Environment = new Dictionary<string, string>
                 {
                     {"GOALS_TABLE_NAME", environmentVariables["GOALS_TABLE_NAME"]}
