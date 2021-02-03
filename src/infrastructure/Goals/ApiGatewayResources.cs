@@ -26,6 +26,7 @@ namespace Infrastructure.Goals
                     Name = $"{id}-Goals-Authorizer",
                     Type = "COGNITO_USER_POOLS",
                     RestApiId = goalsResource.Api.RestApiId,
+                    IdentitySource = "method.request.header.Authorization",
                     ProviderArns = new string[] { userPool.UserPoolArn }
                 });
 
