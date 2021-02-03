@@ -16,8 +16,7 @@ namespace Goals
         public async Task<APIGatewayProxyResponse> FunctionHandler(APIGatewayProxyRequest request, ILambdaContext context)
         {
             // Get the UID from the JWT
-            string uid = string.Empty;
-            request.RequestContext.Authorizer.Claims.TryGetValue("uid", out uid);
+            request.RequestContext.Authorizer.Claims.TryGetValue("uid", out string uid);
 
             // Load table globally for optimization, because of the DescribeTable call
             if (_goalsTable == null)
