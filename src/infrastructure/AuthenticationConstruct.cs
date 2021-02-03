@@ -14,34 +14,38 @@ namespace Infrastructure
         public AuthenticationConstruct(Construct scope, string id, Amazon.CDK.AWS.APIGateway.Resource apiParent)
             : base(scope, id)
         {
-            var cognitoResources = new CognitoResources(scope, id);
-            var dynamodbResources = new DynamoDbResources(scope, id);
-            var lambdaResources = new LambdaResources(
+            CognitoResources = new CognitoResources(scope, id);
+            DynamoDbResources = new DynamoDbResources(scope, id);
+            LambdaResources = new LambdaResources(
                 scope,
                 id,
                 new Dictionary<string, string>
                 {
-                    {"USER_POOL_ID", cognitoResources.UserPool.UserPoolId },
-                    {"USER_POOL_CLIENT_ID", cognitoResources.UserPoolClient.UserPoolClientId }
+                    {"USER_POOL_ID", CognitoResources.UserPool.UserPoolId },
+                    {"USER_POOL_CLIENT_ID", CognitoResources.UserPoolClient.UserPoolClientId }
                 });
-            var apiGatewayResources = new ApiGatewayResources(scope, id, apiParent, lambdaResources);
+            ApiGatewayResources = new ApiGatewayResources(scope, id, apiParent, LambdaResources);
 
-            dynamodbResources.UsersTable.GrantReadWriteData(lambdaResources.CreateAccountFunction);
+            DynamoDbResources.UsersTable.GrantReadWriteData(LambdaResources.CreateAccountFunction);
 
-            lambdaResources.CreateAccountFunction.AddToRolePolicy(new PolicyStatement(new PolicyStatementProps
+            LambdaResources.CreateAccountFunction.AddToRolePolicy(new PolicyStatement(new PolicyStatementProps
             {
                 Effect = Effect.ALLOW,
                 Actions = new[] { "cognito-idp:InitiateAuth", "cognito-idp:SignUp", "cognito-idp:AdminConfirmSignUp" },
-                Resources = new[] { cognitoResources.UserPool.UserPoolArn },
+                Resources = new[] { CognitoResources.UserPool.UserPoolArn },
             }));
 
-            lambdaResources.LoginFunction.AddToRolePolicy(new PolicyStatement(new PolicyStatementProps
+            LambdaResources.LoginFunction.AddToRolePolicy(new PolicyStatement(new PolicyStatementProps
             {
                 Effect = Effect.ALLOW,
                 Actions = new[] { "cognito-idp:InitiateAuth"},
-                Resources = new[] { cognitoResources.UserPool.UserPoolArn },
+                Resources = new[] { CognitoResources.UserPool.UserPoolArn },
             }));
-
         }
+
+        public CognitoResources CognitoResources { get; set; }
+        public DynamoDbResources DynamoDbResources { get; set; }
+        public LambdaResources LambdaResources { get; set; }
+        public ApiGatewayResources ApiGatewayResources { get; set; }
     }
 }

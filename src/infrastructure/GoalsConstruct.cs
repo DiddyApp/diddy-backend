@@ -12,13 +12,16 @@ namespace Infrastructure
 {
     public class GoalsConstruct : Construct
     {
-        public GoalsConstruct(Construct scope, string id, Amazon.CDK.AWS.APIGateway.Resource apiParent)
+        public GoalsConstruct(Construct scope, string id, UserPool userPool, Amazon.CDK.AWS.APIGateway.Resource apiParent)
             : base(scope, id)
         {
             var dynamoDb = new DynamoDbResources(scope, id);
-            var lambdaResources = new LambdaResources(scope, id);
-            var apiGatewayResources = new ApiGatewayResources(scope, id, apiParent, lambdaResources);
-            
+            var lambdaResources = new LambdaResources(scope, id, new Dictionary<string, string>
+            {
+                { "GOALS_TABLE_NAME", dynamoDb.GoalsTable.TableName }
+            });
+            var apiGatewayResources = new ApiGatewayResources(scope, id, apiParent, lambdaResources, userPool);
+
             dynamoDb.GoalsTable.GrantReadWriteData(lambdaResources.AddGoal);
             dynamoDb.GoalsTable.GrantReadData(lambdaResources.GetGoal);
             dynamoDb.GoalsTable.GrantReadWriteData(lambdaResources.DeleteGoal);

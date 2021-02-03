@@ -27,6 +27,7 @@ namespace Goals
             }
 
             var goal = Document.FromJson(request.Body);
+            goal["uid"] = uid;
             var result = await _goalsTable.PutItemAsync(goal);
 
             return new APIGatewayProxyResponse().CreateSuccessResponse(result);
