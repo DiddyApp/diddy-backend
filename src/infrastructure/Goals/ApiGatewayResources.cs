@@ -17,17 +17,6 @@ namespace Infrastructure.Goals
            : base(scope, $"{id}-ApiGateway")
         {
             var goalsResource = apiParent.AddResource("goals");
-            var authorizer = new CfnAuthorizer(
-                this,
-                $"{id}-Goals-Auth",
-                new CfnAuthorizerProps
-                {
-                    Name = $"{id}-Goals-Authorizer",
-                    Type = "COGNITO_USER_POOLS",
-                    RestApiId = goalsResource.Api.RestApiId,
-                    ProviderArns = new string[] { userPool.UserPoolArn},
-                    IdentitySource = "method.request.header.Authorization"
-                });
 
             var addGoalIntegration = new LambdaIntegration(lambdas.AddGoal, new LambdaIntegrationOptions
             {
@@ -36,7 +25,16 @@ namespace Infrastructure.Goals
                     ["application/json"] = "{ \"statusCode\": \"200\" }"
                 },
             });
-            goalsResource.AddMethod("POST", addGoalIntegration);
+            goalsResource.AddMethod("POST", addGoalIntegration, new MethodOptions
+            {
+                AuthorizationType = AuthorizationType.COGNITO,
+                Authorizer = new RequestAuthorizer(this, $"{id}-Authorizer", new RequestAuthorizerProps
+                {
+                    AuthorizerName = $"{id}-Authorizer",
+                    IdentitySources = new string[] { "method.request.header.Authorization" },
+                    Handler = lambdas.AddGoal,
+                })
+            });
 
             var getGoalIntegration = new LambdaIntegration(lambdas.GetGoal, new LambdaIntegrationOptions
             {
@@ -45,7 +43,16 @@ namespace Infrastructure.Goals
                     ["application/json"] = "{ \"statusCode\": \"200\" }"
                 },
             });
-            goalsResource.AddMethod("GET", getGoalIntegration);
+            goalsResource.AddMethod("GET", getGoalIntegration, new MethodOptions
+            {
+                AuthorizationType = AuthorizationType.COGNITO,
+                Authorizer = new RequestAuthorizer(this, $"{id}-Authorizer", new RequestAuthorizerProps
+                {
+                    AuthorizerName = $"{id}-Authorizer",
+                    IdentitySources = new string[] { "method.request.header.Authorization" },
+                    Handler = lambdas.AddGoal,
+                })
+            });
 
             var deleteGoalIntegration = new LambdaIntegration(lambdas.DeleteGoal, new LambdaIntegrationOptions
             {
@@ -54,7 +61,16 @@ namespace Infrastructure.Goals
                     ["application/json"] = "{ \"statusCode\": \"200\" }"
                 },
             });
-            goalsResource.AddMethod("DELETE", deleteGoalIntegration);
+            goalsResource.AddMethod("DELETE", deleteGoalIntegration, new MethodOptions
+            {
+                AuthorizationType = AuthorizationType.COGNITO,
+                Authorizer = new RequestAuthorizer(this, $"{id}-Authorizer", new RequestAuthorizerProps
+                {
+                    AuthorizerName = $"{id}-Authorizer",
+                    IdentitySources = new string[] { "method.request.header.Authorization" },
+                    Handler = lambdas.AddGoal,
+                })
+            });
 
             var updateGoalIntegration = new LambdaIntegration(lambdas.UpdateGoal, new LambdaIntegrationOptions
             {
@@ -63,7 +79,16 @@ namespace Infrastructure.Goals
                     ["application/json"] = "{ \"statusCode\": \"200\" }"
                 },
             });
-            goalsResource.AddMethod("PUT", updateGoalIntegration);
+            goalsResource.AddMethod("PUT", updateGoalIntegration, new MethodOptions
+            {
+                AuthorizationType = AuthorizationType.COGNITO,
+                Authorizer = new RequestAuthorizer(this, $"{id}-Authorizer", new RequestAuthorizerProps
+                {
+                    AuthorizerName = $"{id}-Authorizer",
+                    IdentitySources = new string[] { "method.request.header.Authorization" },
+                    Handler = lambdas.AddGoal,
+                })
+            });
 
         }
     }
