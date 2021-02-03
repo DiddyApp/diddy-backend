@@ -25,7 +25,7 @@ namespace Infrastructure.Goals
                     Name = $"{id}-Goals-Authorizer",
                     Type = "COGNITO_USER_POOLS",
                     RestApiId = goalsResource.Api.RestApiId,
-                    ProviderArns = new string[] { userPool.UserPoolId}
+                    ProviderArns = new string[] { userPool.UserPoolArn}
                 });
 
             var addGoalIntegration = new LambdaIntegration(lambdas.AddGoal, new LambdaIntegrationOptions
