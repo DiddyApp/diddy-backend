@@ -1,11 +1,17 @@
-﻿using System;
+﻿using Amazon.CDK;
 using Amazon.CDK.AWS.APIGateway;
 
 namespace Infrastructure.Utils
 {
-    public class CognitoAuthorizer : IAuthorizer
+    public class CognitoAuthorizer : CfnAuthorizer, IAuthorizer
     {
-        public string AuthorizerId { get; set; }
+        public CognitoAuthorizer(Construct scope, string id, CfnAuthorizerProps props)
+            :base(scope, id, props)
+        {
+            AuthorizerId = Ref;
+        }
+
+        public string AuthorizerId { get; private set; }
         public AuthorizationType AuthorizationType { get { return AuthorizationType.COGNITO; } }
     }
 }

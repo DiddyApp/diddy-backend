@@ -18,7 +18,7 @@ namespace Infrastructure.Goals
         {
             var goalsResource = apiParent.AddResource("goals");
 
-            var authorizer = new CfnAuthorizer(
+            var authorizer = new CognitoAuthorizer(
                 this,
                 $"{id}-Goals-Auth",
                 new CfnAuthorizerProps
@@ -40,7 +40,7 @@ namespace Infrastructure.Goals
             goalsResource.AddMethod("POST", addGoalIntegration, new MethodOptions
             {
                 AuthorizationType = AuthorizationType.COGNITO,
-                Authorizer = new CognitoAuthorizer { AuthorizerId = authorizer.Ref }
+                Authorizer = authorizer
             });
 
             var getGoalIntegration = new LambdaIntegration(lambdas.GetGoal, new LambdaIntegrationOptions
