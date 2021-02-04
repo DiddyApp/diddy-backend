@@ -13,8 +13,8 @@ namespace Infrastructure.Authentication
             CreateAccountFunction = new Function(scope, "CreateAccount", new FunctionProps
             {
                 Runtime = Runtime.DOTNET_CORE_3_1,
-                Code = Code.FromAsset("lambdas/Authentication/publish"),
-                Handler = "Authentication::Authentication.CreateAccountFunction::FunctionHandler",
+                Code = Code.FromAsset("lambdas/CreateAccount/publish"),
+                Handler = "CreateAccount::CreateAccount.CreateAccountFunction::FunctionHandler",
                 Environment = new Dictionary<string, string>
                 {
                     {"USER_POOL_ID", environmentVariables["USER_POOL_ID"] },
