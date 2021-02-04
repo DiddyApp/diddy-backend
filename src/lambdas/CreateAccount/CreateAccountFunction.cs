@@ -1,24 +1,34 @@
 ﻿using System;
-using System.Threading.Tasks;
-using Amazon.Lambda.APIGatewayEvents;
-using Common.LambdaUtils;
-using Amazon.Lambda.Core;
-using Authentication.Models;
-using Amazon.CognitoIdentityProvider;
 using System.Collections.Generic;
+using Amazon.CognitoIdentityProvider;
+using Amazon.Extensions.CognitoAuthentication;
+using Amazon.Lambda.APIGatewayEvents;
+using Amazon.Lambda.Core;
+using Amazon.CognitoIdentityProvider.Model;
+using System.Threading.Tasks;
+using CreateAccount.LambdaUtils;
+using CreateAccount.Models;
 
-namespace Authentication
+namespace CreateAccount
 {
-    public class LoginFunction
+    public class CreateAccountFunction
     {
         public static string _userPoolId = Environment.GetEnvironmentVariable("USER_POOL_ID");
         public static string _userPoolClientId = Environment.GetEnvironmentVariable("USER_POOL_CLIENT_ID");
         public static AmazonCognitoIdentityProviderClient _provider = new AmazonCognitoIdentityProviderClient();
+        public static CognitoUserPool _userPool = new CognitoUserPool(_userPoolId, _userPoolClientId, _provider);
 
         public async Task<APIGatewayProxyResponse> FunctionHandler(APIGatewayProxyRequest request, ILambdaContext context)
         {
-            var userData = request.GetBody<LoginRequestModel>();
-            var authResult = await _provider.InitiateAuthAsync(new Amazon.CognitoIdentityProvider.Model.InitiateAuthRequest
+            var userData = request.GetBody<CreateAccountRequestModel>();
+
+            await _userPool.SignUpAsync(userData.Email, userData.Password, new Dictionary<string, string>(), new Dictionary<string, string>());
+            await _provider.AdminConfirmSignUpAsync(new AdminConfirmSignUpRequest
+            {
+                Username = userData.Email,
+                UserPoolId = _userPool.PoolID
+            });
+            var authResult = await _provider.InitiateAuthAsync(new InitiateAuthRequest
             {
                 AuthParameters = new Dictionary<string, string>
                 {
