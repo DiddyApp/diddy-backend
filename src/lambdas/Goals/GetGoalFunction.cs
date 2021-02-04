@@ -4,6 +4,7 @@ using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DocumentModel;
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
+using Amazon.Runtime.Internal.Util;
 using Common.LambdaUtils;
 
 namespace Goals
@@ -40,7 +41,8 @@ namespace Goals
                 }
             } catch (Exception e)
             {
-                return new APIGatewayProxyResponse().CreateErrorResponse(e.StackTrace);
+                LambdaLogger.Log(e.ToString());
+                return new APIGatewayProxyResponse().CreateErrorResponse(e.ToString());
             }
         }
     }

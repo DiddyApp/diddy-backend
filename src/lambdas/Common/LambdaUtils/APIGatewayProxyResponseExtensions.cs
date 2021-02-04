@@ -37,7 +37,7 @@ namespace Common.LambdaUtils
 
         public static APIGatewayProxyResponse CreateErrorResponse(this APIGatewayProxyResponse apiResponse, string bodyContent)
         {
-            apiResponse.Body = bodyContent;
+            apiResponse.Body = JsonConvert.SerializeObject(new { error = bodyContent});
             apiResponse.StatusCode = 400;
             apiResponse.Headers = new Dictionary<string, string>
             {
