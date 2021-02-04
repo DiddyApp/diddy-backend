@@ -9,7 +9,7 @@ namespace Goals.Models
         [DynamoDBHashKey(attributeName:"uid")]
         public string Uid { get; set; }
 
-        [DynamoDBProperty(attributeName:"goal_id")]
+        [DynamoDBRangeKey(attributeName:"goal_id")]
         public string GoalId { get; set; }
 
         [DynamoDBProperty(attributeName:"counter")]
