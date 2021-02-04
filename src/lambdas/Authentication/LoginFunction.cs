@@ -18,6 +18,7 @@ namespace Authentication
         public async Task<APIGatewayProxyResponse> FunctionHandler(APIGatewayProxyRequest request, ILambdaContext context)
         {
             var userData = request.GetBody<LoginRequestModel>();
+
             var authResult = await _provider.InitiateAuthAsync(new Amazon.CognitoIdentityProvider.Model.InitiateAuthRequest
             {
                 AuthParameters = new Dictionary<string, string>
