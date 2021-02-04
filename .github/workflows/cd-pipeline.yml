@@ -31,6 +31,9 @@ jobs:
     - name: Publish Goals Project
       run: dotnet publish -o publish
       working-directory: ${{env.working-directory}}/lambdas/Goals
+    - name: Publish CreateAccount Project
+      run: dotnet publish -o publish
+      working-directory: ${{env.working-directory}}/lambdas/CreateAccount
       
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
