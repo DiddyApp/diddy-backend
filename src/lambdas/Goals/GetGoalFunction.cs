@@ -26,7 +26,7 @@ namespace Goals
                 _goalsTable = Table.LoadTable(client, _goalsTableName);
             }
 
-            if (request.QueryStringParameters.ContainsKey("id"))
+            if (request.QueryStringParameters != null && request.QueryStringParameters.ContainsKey("id"))
             {
                 var goalId = request.QueryStringParameters["id"];
                 var result = await _goalsTable.GetItemAsync(uid, goalId);
