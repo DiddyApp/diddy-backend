@@ -34,7 +34,8 @@ namespace Goals
                 return new APIGatewayProxyResponse().CreateSuccessResponse(result.ToJson());
             } catch (Exception e)
             {
-                return new APIGatewayProxyResponse().CreateErrorResponse(e.StackTrace);
+                LambdaLogger.Log(e.ToString());
+                return new APIGatewayProxyResponse().CreateErrorResponse(e.ToString());
             }
         } 
     }
