@@ -15,27 +15,32 @@ namespace Goals
 
         public async Task<APIGatewayProxyResponse> FunctionHandler(APIGatewayProxyRequest request, ILambdaContext context)
         {
-            // Get the UID from the JWT
-            string uid = string.Empty;
-            request.RequestContext.Authorizer.Claims.TryGetValue("cognito:username", out uid);
+            try
+            {
+                // Get the UID from the JWT
+                request.RequestContext.Authorizer.Claims.TryGetValue("cognito:username", out string uid);
 
-            // Load table globally for optimization, because of the DescribeTable call
-            if (_goalsTable == null)
-            {
-                var client = new AmazonDynamoDBClient();
-                _goalsTable = Table.LoadTable(client, _goalsTableName);
-            }
+                // Load table globally for optimization, because of the DescribeTable call
+                if (_goalsTable == null)
+                {
+                    var client = new AmazonDynamoDBClient();
+                    _goalsTable = Table.LoadTable(client, _goalsTableName);
+                }
 
-            if (request.QueryStringParameters != null && request.QueryStringParameters.ContainsKey("id"))
+                if (request.QueryStringParameters != null && request.QueryStringParameters.ContainsKey("id"))
+                {
+                    var goalId = request.QueryStringParameters["id"];
+                    var result = await _goalsTable.GetItemAsync(uid, goalId);
+                    return new APIGatewayProxyResponse().CreateSuccessResponse(result);
+                }
+                else
+                {
+                    var result = await _goalsTable.Query(uid, new QueryFilter()).GetNextSetAsync();
+                    return new APIGatewayProxyResponse().CreateSuccessResponse(result.ToJson());
+                }
+            } catch (Exception e)
             {
-                var goalId = request.QueryStringParameters["id"];
-                var result = await _goalsTable.GetItemAsync(uid, goalId);
-                return new APIGatewayProxyResponse().CreateSuccessResponse(result);
-            }
-            else
-            {
-                var result = await _goalsTable.Query(uid, new QueryFilter()).GetNextSetAsync();
-                return new APIGatewayProxyResponse().CreateSuccessResponse(result.ToJson());
+                return new APIGatewayProxyResponse().CreateErrorResponse(e.StackTrace);
             }
         }
     }

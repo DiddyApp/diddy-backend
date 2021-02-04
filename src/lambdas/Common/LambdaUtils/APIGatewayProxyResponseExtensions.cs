@@ -21,5 +21,31 @@ namespace Common.LambdaUtils
 
             return apiResponse;
         }
+
+        public static APIGatewayProxyResponse CreateSuccessResponse(this APIGatewayProxyResponse apiResponse, string bodyContent)
+        {
+            apiResponse.Body = bodyContent;
+            apiResponse.StatusCode = 200;
+            apiResponse.Headers = new Dictionary<string, string>
+            {
+                { "Content-Type", "application/json" },
+                { "Access-Control-Allow-Origin", "*" }
+            };
+
+            return apiResponse;
+        }
+
+        public static APIGatewayProxyResponse CreateErrorResponse(this APIGatewayProxyResponse apiResponse, string bodyContent)
+        {
+            apiResponse.Body = bodyContent;
+            apiResponse.StatusCode = 400;
+            apiResponse.Headers = new Dictionary<string, string>
+            {
+                { "Content-Type", "application/json" },
+                { "Access-Control-Allow-Origin", "*" }
+            };
+
+            return apiResponse;
+        }
     }
 }
