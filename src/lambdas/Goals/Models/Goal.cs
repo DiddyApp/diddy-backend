@@ -6,13 +6,13 @@ namespace Goals.Models
     [DynamoDBTable(tableName: "Goals")]
     public class Goal
     {
-        [DynamoDBHashKey]
+        [DynamoDBHashKey(attributeName:"uid")]
         public string Uid { get; set; }
 
-        [DynamoDBProperty]
-        public string Id { get; set; }
+        [DynamoDBProperty(attributeName:"goal_id")]
+        public string GoalId { get; set; }
 
-        [DynamoDBProperty]
+        [DynamoDBProperty(attributeName:"counter")]
         public long Counter { get; set; }
     }
 }
