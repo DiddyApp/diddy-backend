@@ -13,14 +13,13 @@ namespace Authentication
     {
         public static string _userPoolId = Environment.GetEnvironmentVariable("USER_POOL_ID");
         public static string _userPoolClientId = Environment.GetEnvironmentVariable("USER_POOL_CLIENT_ID");
+        public static AmazonCognitoIdentityProviderClient _provider = new AmazonCognitoIdentityProviderClient();
 
         public async Task<APIGatewayProxyResponse> FunctionHandler(APIGatewayProxyRequest request, ILambdaContext context)
         {
             var userData = request.GetBody<LoginRequestModel>();
 
-            var provider = new AmazonCognitoIdentityProviderClient();
-
-            var authResult = await provider.InitiateAuthAsync(new Amazon.CognitoIdentityProvider.Model.InitiateAuthRequest
+            var authResult = await _provider.InitiateAuthAsync(new Amazon.CognitoIdentityProvider.Model.InitiateAuthRequest
             {
                 AuthParameters = new Dictionary<string, string>
                 {

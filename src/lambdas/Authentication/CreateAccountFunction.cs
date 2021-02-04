@@ -15,22 +15,20 @@ namespace Authentication
     {
         public static string _userPoolId = Environment.GetEnvironmentVariable("USER_POOL_ID");
         public static string _userPoolClientId = Environment.GetEnvironmentVariable("USER_POOL_CLIENT_ID");
-
+        public static AmazonCognitoIdentityProviderClient _provider = new AmazonCognitoIdentityProviderClient();
+        public static CognitoUserPool _userPool = new CognitoUserPool(_userPoolId, _userPoolClientId, _provider);
 
         public async Task<APIGatewayProxyResponse> FunctionHandler(APIGatewayProxyRequest request, ILambdaContext context)
         {
             var userData = request.GetBody<CreateAccountRequestModel>();
 
-            var provider = new AmazonCognitoIdentityProviderClient();
-            var userPool = new CognitoUserPool(_userPoolId, _userPoolClientId, provider);
-
-            await userPool.SignUpAsync(userData.Email, userData.Password, new Dictionary<string, string>(), new Dictionary<string, string>());
-            await provider.AdminConfirmSignUpAsync(new AdminConfirmSignUpRequest
+            await _userPool.SignUpAsync(userData.Email, userData.Password, new Dictionary<string, string>(), new Dictionary<string, string>());
+            await _provider.AdminConfirmSignUpAsync(new AdminConfirmSignUpRequest
             {
                 Username = userData.Email,
-                UserPoolId = userPool.PoolID
+                UserPoolId = _userPool.PoolID
             });
-            var authResult = await provider.InitiateAuthAsync(new InitiateAuthRequest
+            var authResult = await _provider.InitiateAuthAsync(new InitiateAuthRequest
             {
                 AuthParameters = new Dictionary<string, string>
                 {

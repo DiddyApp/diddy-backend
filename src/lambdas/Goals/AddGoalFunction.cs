@@ -29,7 +29,7 @@ namespace Goals
             goal["uid"] = uid;
             var result = await _goalsTable.PutItemAsync(goal);
 
-            return new APIGatewayProxyResponse().CreateSuccessResponse(result.ToJsonPretty());
+            return new APIGatewayProxyResponse().CreateSuccessResponse(result.ToJson());
         } 
     }
 }

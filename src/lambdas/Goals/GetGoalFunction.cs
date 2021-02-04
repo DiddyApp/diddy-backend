@@ -35,7 +35,7 @@ namespace Goals
             else
             {
                 var result = await _goalsTable.Query(uid, new QueryFilter()).GetNextSetAsync();
-                return new APIGatewayProxyResponse().CreateSuccessResponse(result.ToJsonPretty());
+                return new APIGatewayProxyResponse().CreateSuccessResponse(result.ToJson());
             }
         }
     }
