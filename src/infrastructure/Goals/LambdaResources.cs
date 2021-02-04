@@ -18,7 +18,8 @@ namespace Infrastructure.Goals
                 Environment = new Dictionary<string, string>
                 {
                     {"GOALS_TABLE_NAME", environmentVariables["GOALS_TABLE_NAME"]}
-                }
+                },
+                Timeout = Duration.Seconds(15) // until we optimize this :)
             });
 
             GetGoal = new Function(scope, "GetGoal", new FunctionProps
@@ -29,7 +30,8 @@ namespace Infrastructure.Goals
                 Environment = new Dictionary<string, string>
                 {
                     {"GOALS_TABLE_NAME", environmentVariables["GOALS_TABLE_NAME"]}
-                }
+                },
+                Timeout = Duration.Seconds(15) // until we optimize this :)
             });
 
             DeleteGoal = new Function(scope, "DeleteGoal", new FunctionProps
@@ -40,7 +42,8 @@ namespace Infrastructure.Goals
                 Environment = new Dictionary<string, string>
                 {
                     {"GOALS_TABLE_NAME", environmentVariables["GOALS_TABLE_NAME"]}
-                }
+                },
+                Timeout = Duration.Seconds(15) // until we optimize this :)
             });
 
             UpdateGoal = new Function(scope, "UpdateCounter", new FunctionProps
@@ -51,7 +54,8 @@ namespace Infrastructure.Goals
                 Environment = new Dictionary<string, string>
                 {
                     {"GOALS_TABLE_NAME", environmentVariables["GOALS_TABLE_NAME"]}
-                }
+                },
+                Timeout = Duration.Seconds(15) // until we optimize this :)
             });
         }
 

@@ -19,7 +19,8 @@ namespace Infrastructure.Authentication
                 {
                     {"USER_POOL_ID", environmentVariables["USER_POOL_ID"] },
                     {"USER_POOL_CLIENT_ID", environmentVariables["USER_POOL_CLIENT_ID"] },
-                }
+                },
+                Timeout = Duration.Seconds(15) // until we optimize this :) 
             });
 
             LoginFunction = new Function(scope, "Login", new FunctionProps
@@ -31,7 +32,8 @@ namespace Infrastructure.Authentication
                 {
                     {"USER_POOL_ID", environmentVariables["USER_POOL_ID"] },
                     {"USER_POOL_CLIENT_ID", environmentVariables["USER_POOL_CLIENT_ID"] },
-                }
+                },
+                Timeout = Duration.Seconds(15) // until we optimize this :) 
             });
         }
 
