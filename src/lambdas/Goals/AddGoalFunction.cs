@@ -31,12 +31,13 @@ namespace Goals
                 goal["uid"] = uid;
                 var result = await _goalsTable.PutItemAsync(goal);
 
-                return new APIGatewayProxyResponse().CreateSuccessResponse(result.ToJson());
-            } catch (Exception e)
+                return new APIGatewayProxyResponse().CreateSuccessResponse(new { Success = true });
+            }
+            catch (Exception e)
             {
                 LambdaLogger.Log(e.ToString());
                 return new APIGatewayProxyResponse().CreateErrorResponse(e.ToString());
             }
-        } 
+        }
     }
 }
