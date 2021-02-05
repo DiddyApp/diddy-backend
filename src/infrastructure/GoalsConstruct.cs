@@ -22,7 +22,7 @@ namespace Infrastructure
             });
             var apiGatewayResources = new ApiGatewayResources(scope, id, apiParent, lambdaResources, userPool);
 
-            dynamoDb.GoalsTable.Grant(lambdaResources.AddGoal, new string[] { "dynamodb:DescribeTable", "dynamodb:PutItem" });
+            dynamoDb.GoalsTable.Grant(lambdaResources.AddGoal, new string[] { "dynamodb:DescribeTable", "dynamodb:PutItem", "dynamodb:UpdateItem" });
             dynamoDb.GoalsTable.Grant(lambdaResources.GetGoal, new string[] { "dynamodb:DescribeTable", "dynamodb:GetItem", "dynamodb:Query" });
             dynamoDb.GoalsTable.GrantReadWriteData(lambdaResources.DeleteGoal);
             dynamoDb.GoalsTable.GrantReadWriteData(lambdaResources.UpdateGoal);
