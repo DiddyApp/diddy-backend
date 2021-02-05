@@ -14,13 +14,15 @@ namespace Infrastructure
             var authConstruct = new AuthenticationConstruct(
                 this,
                 $"{id}-authentication",
-                common.ApiGatewayResources.ApiParent);
+                common.ApiGatewayResources.ApiParent,
+                common.LambdaResources.CommonLayer);
 
             var goalsConstruct = new GoalsConstruct(
                 this,
                 $"{id}-goals",
                 authConstruct.CognitoResources.UserPool,
-                common.ApiGatewayResources.ApiParent);
+                common.ApiGatewayResources.ApiParent,
+                common.LambdaResources.CommonLayer);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Infrastructure.Authentication
     {
         public CognitoResources(Construct scope, string id) : base(scope, $"{id}-Cognito")
         {
-            UserPool = new UserPool(scope, "UserPool");
+            UserPool = new UserPool(this, "UserPool");
             UserPoolClient = new UserPoolClient(
                 scope,
                 "UserPoolClient",

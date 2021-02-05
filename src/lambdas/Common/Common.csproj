@@ -11,5 +11,12 @@
     <PackageReference Include="Amazon.Lambda.APIGatewayEvents" Version="2.4.0" />
     <PackageReference Include="AWSSDK.APIGateway" Version="3.5.2.30" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Amazon.Lambda.Core" Version="1.2.0" />
+    <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.1.0" />
+    <PackageReference Include="AWSSDK.CognitoIdentity" Version="3.5.2.5" />
+    <PackageReference Include="AWSSDK.CognitoIdentityProvider" Version="3.5.1.22" />
+    <PackageReference Include="Amazon.Extensions.CognitoAuthentication" Version="2.0.3" />
+    <PackageReference Include="Amazon.Lambda.APIGatewayEvents" Version="2.4.0" />
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.5.4.24" />
   </ItemGroup>
 </Project>
