@@ -31,7 +31,6 @@ namespace Goals
                 }
 
                 var goal = JsonConvert.DeserializeObject<Goal>(request.Body);
-                LambdaLogger.Log(request.Body);
                 goal.Uid = uid;
                 await _dynamoDbContext.SaveAsync(goal);
                 return new APIGatewayProxyResponse().CreateSuccessResponse(goal);
