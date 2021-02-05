@@ -17,6 +17,11 @@ namespace Infrastructure.Goals
                         Name = "uid",
                         Type = AttributeType.STRING
                     },
+                    SortKey = new Attribute
+                    {
+                        Name = "goal_id",
+                        Type = AttributeType.STRING
+                    }
                 });
         }
 
