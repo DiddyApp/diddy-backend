@@ -7,10 +7,14 @@ namespace Infrastructure.Goals
 {
     public class LambdaResources : Construct
     {
-        public LambdaResources(Construct scope, string id, Dictionary<string, string> environmentVariables)
+        public LambdaResources(
+            Construct scope,
+            string id,
+            Dictionary<string, string> environmentVariables,
+            LayerVersion layer)
             : base(scope, $"{id}-Lambda")
         {
-            AddGoal = new Function(scope, "AddGoal", new FunctionProps
+            AddGoal = new Function(this, "AddGoal", new FunctionProps
             {
                 Runtime = Runtime.DOTNET_CORE_3_1,
                 Code = Code.FromAsset("lambdas/Goals/publish"),
@@ -19,10 +23,11 @@ namespace Infrastructure.Goals
                 {
                     {"GOALS_TABLE_NAME", environmentVariables["GOALS_TABLE_NAME"]}
                 },
+                Layers = new LayerVersion[] { layer },
                 Timeout = Duration.Seconds(15) // until we optimize this :)
             });
 
-            GetGoal = new Function(scope, "GetGoal", new FunctionProps
+            GetGoal = new Function(this, "GetGoal", new FunctionProps
             {
                 Runtime = Runtime.DOTNET_CORE_3_1,
                 Code = Code.FromAsset("lambdas/Goals/publish"),
@@ -31,10 +36,11 @@ namespace Infrastructure.Goals
                 {
                     {"GOALS_TABLE_NAME", environmentVariables["GOALS_TABLE_NAME"]}
                 },
+                Layers = new LayerVersion[] { layer },
                 Timeout = Duration.Seconds(15) // until we optimize this :)
             });
 
-            DeleteGoal = new Function(scope, "DeleteGoal", new FunctionProps
+            DeleteGoal = new Function(this, "DeleteGoal", new FunctionProps
             {
                 Runtime = Runtime.DOTNET_CORE_3_1,
                 Code = Code.FromAsset("lambdas/Goals/publish"),
@@ -43,10 +49,11 @@ namespace Infrastructure.Goals
                 {
                     {"GOALS_TABLE_NAME", environmentVariables["GOALS_TABLE_NAME"]}
                 },
+                Layers = new LayerVersion[] { layer },
                 Timeout = Duration.Seconds(15) // until we optimize this :)
             });
 
-            UpdateGoal = new Function(scope, "UpdateCounter", new FunctionProps
+            UpdateGoal = new Function(this, "UpdateCounter", new FunctionProps
             {
                 Runtime = Runtime.DOTNET_CORE_3_1,
                 Code = Code.FromAsset("lambdas/Goals/publish"),
@@ -55,6 +62,7 @@ namespace Infrastructure.Goals
                 {
                     {"GOALS_TABLE_NAME", environmentVariables["GOALS_TABLE_NAME"]}
                 },
+                Layers = new LayerVersion[] { layer },
                 Timeout = Duration.Seconds(15) // until we optimize this :)
             });
         }

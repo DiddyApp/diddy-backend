@@ -11,11 +11,15 @@ namespace Infrastructure
 {
     public class AuthenticationConstruct : Construct
     {
-        public AuthenticationConstruct(Construct scope, string id, Amazon.CDK.AWS.APIGateway.Resource apiParent)
+        public AuthenticationConstruct(
+            Construct scope,
+            string id,
+            Amazon.CDK.AWS.APIGateway.Resource apiParent,
+            LayerVersion commonLayer)
             : base(scope, id)
         {
-            CognitoResources = new CognitoResources(scope, id);
-            DynamoDbResources = new DynamoDbResources(scope, id);
+            CognitoResources = new CognitoResources(this, id);
+            DynamoDbResources = new DynamoDbResources(this, id);
             LambdaResources = new LambdaResources(
                 scope,
                 id,
@@ -23,8 +27,9 @@ namespace Infrastructure
                 {
                     {"USER_POOL_ID", CognitoResources.UserPool.UserPoolId },
                     {"USER_POOL_CLIENT_ID", CognitoResources.UserPoolClient.UserPoolClientId }
-                });
-            ApiGatewayResources = new ApiGatewayResources(scope, id, apiParent, LambdaResources);
+                },
+                commonLayer);
+            ApiGatewayResources = new ApiGatewayResources(this, id, apiParent, LambdaResources);
 
             DynamoDbResources.UsersTable.GrantReadWriteData(LambdaResources.CreateAccountFunction);
 

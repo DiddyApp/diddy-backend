@@ -7,7 +7,7 @@ namespace Infrastructure.Common
     {
         public ApiGatewayResources(Construct scope, string id) : base(scope, $"{id}-ApiGateway")
         {
-            var api = new RestApi(scope, "Diddy-API", new RestApiProps
+            var api = new RestApi(this, "Diddy-API", new RestApiProps
             {
                 RestApiName = "Diddy API"
             });
