@@ -12,15 +12,21 @@ namespace Infrastructure
 {
     public class GoalsConstruct : Construct
     {
-        public GoalsConstruct(Construct scope, string id, UserPool userPool, Amazon.CDK.AWS.APIGateway.Resource apiParent)
+        public GoalsConstruct(
+            Construct scope,
+            string id,
+            UserPool userPool,
+            Amazon.CDK.AWS.APIGateway.Resource apiParent,
+            LayerVersion commonLayer)
             : base(scope, id)
         {
-            var dynamoDb = new DynamoDbResources(scope, id);
-            var lambdaResources = new LambdaResources(scope, id, new Dictionary<string, string>
+            var dynamoDb = new DynamoDbResources(this, id);
+            var lambdaResources = new LambdaResources(this, id, new Dictionary<string, string>
             {
                 { "GOALS_TABLE_NAME", dynamoDb.GoalsTable.TableName }
-            });
-            var apiGatewayResources = new ApiGatewayResources(scope, id, apiParent, lambdaResources, userPool);
+            },
+            commonLayer);
+            var apiGatewayResources = new ApiGatewayResources(this, id, apiParent, lambdaResources, userPool);
 
             dynamoDb.GoalsTable.Grant(lambdaResources.AddGoal, new string[] { "dynamodb:DescribeTable", "dynamodb:PutItem", "dynamodb:UpdateItem" });
             dynamoDb.GoalsTable.Grant(lambdaResources.GetGoal, new string[] { "dynamodb:DescribeTable", "dynamodb:GetItem", "dynamodb:Query" });

@@ -7,7 +7,7 @@ namespace Infrastructure.Authentication
     {
         public DynamoDbResources(Construct scope, string id) : base(scope, $"{id}-DynamoDb")
         {
-            UsersTable = new Table(scope, "UsersTable",
+            UsersTable = new Table(this, "UsersTable",
                new TableProps
                {
                    TableName = "Users",
