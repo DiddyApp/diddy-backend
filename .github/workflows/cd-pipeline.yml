@@ -25,6 +25,9 @@ jobs:
       run: dotnet build -c Release --no-restore
       working-directory: ${{env.working-directory}}
       
+    - name: Publish Common Project
+      run: dotnet publish -c Release -o publish
+      working-directory: ${{env.working-directory}}/lambdas/Common
     - name: Publish Authentication Project
       run: dotnet publish -c Release -o publish
       working-directory: ${{env.working-directory}}/lambdas/Authentication
