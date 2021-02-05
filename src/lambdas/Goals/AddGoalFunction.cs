@@ -34,7 +34,7 @@ namespace Goals
                 goal.Uid = uid;
                 await _dynamoDbContext.SaveAsync(goal);
 
-                return new APIGatewayProxyResponse().CreateSuccessResponse(new { Success = true });
+                return new APIGatewayProxyResponse().CreateSuccessResponse(goal);
             }
             catch (Exception e)
             {
