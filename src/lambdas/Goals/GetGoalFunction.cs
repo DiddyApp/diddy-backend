@@ -33,7 +33,7 @@ namespace Goals
                 if (request.QueryStringParameters != null && request.QueryStringParameters.ContainsKey("id"))
                 {
                     var goalId = request.QueryStringParameters["id"];
-                    var result = await _dynamoDbContext.LoadAsync(uid);
+                    var result = await _dynamoDbContext.LoadAsync<Goal>(uid, goalId);
                     return new APIGatewayProxyResponse().CreateSuccessResponse(result);
                 }
                 else
@@ -41,7 +41,8 @@ namespace Goals
                     var result = await _dynamoDbContext.QueryAsync<Goal>(uid).GetNextSetAsync();
                     return new APIGatewayProxyResponse().CreateSuccessResponse(result);
                 }
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 LambdaLogger.Log(e.ToString());
                 return new APIGatewayProxyResponse().CreateErrorResponse(e.ToString());
