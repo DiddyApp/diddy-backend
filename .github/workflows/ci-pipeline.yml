@@ -27,5 +27,5 @@ jobs:
       run: dotnet restore
       working-directory: ${{env.working-directory}}
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build -v n --configuration Release
       working-directory: ${{env.working-directory}}
