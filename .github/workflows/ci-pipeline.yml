@@ -1,0 +1,31 @@
+name: CI Pipeline
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'src/**'
+      - '.github/**'
+  push:
+    branches: [ main, develop ]
+    paths: 
+      - 'src/**'
+      - '.github/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./src 
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
+    - name: Install dependencies
+      run: dotnet restore
+      working-directory: ${{env.working-directory}}
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+      working-directory: ${{env.working-directory}}
