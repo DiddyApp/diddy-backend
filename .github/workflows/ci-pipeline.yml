@@ -24,8 +24,8 @@ jobs:
       with:
         dotnet-version: 3.1.101
     - name: Install dependencies
-      run: dotnet restore
+      run: dotnet restore -v m
       working-directory: ${{env.working-directory}}
     - name: Build
-      run: dotnet build -v n --configuration Release
+      run: dotnet build -v m --source /home/runner/work/diddy-backend/diddy-backend/src/lambdas/Common/bin/Release/ --configuration Release
       working-directory: ${{env.working-directory}}
