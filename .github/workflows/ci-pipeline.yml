@@ -45,10 +45,10 @@ jobs:
         export version=${{steps.previoustag.outputs.tag}}
         export versionNumber=${version:1}
         dotnet build --configuration Release --no-restore
-        dotnet pack -c Release /p:Version=$versionNumber 
+        dotnet pack -c Release /p:Version=$version 
       working-directory: ${{env.working-directory}}/lambdas/Common
         
-#         
+        
 #     - name: Publish NuGet Package
 #       run: |
 #         export version=${{steps.previoustag.outputs.tag}}
