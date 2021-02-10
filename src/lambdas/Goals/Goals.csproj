@@ -11,6 +11,6 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Common" Version="1.0.0" />
+    <PackageReference Include="Common.Diddy" Version="1.0.0" />
   </ItemGroup>
 </Project>
