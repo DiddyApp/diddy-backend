@@ -39,7 +39,7 @@ jobs:
       run: dotnet restore -v n
       working-directory: ${{env.working-directory}}
       
-    # Build the common nupkg and push it to Nuget.org
+    # Build the Common nupkg 
     - name: Pack NuGet
       run: |
         export version=${{steps.previoustag.outputs.tag}}
@@ -48,7 +48,7 @@ jobs:
         dotnet pack -c Release /p:Version=$version 
       working-directory: ${{env.working-directory}}/lambdas/Common
         
-        
+    # Push nupkg to Nuget.org
 #     - name: Publish NuGet Package
 #       run: |
 #         export version=${{steps.previoustag.outputs.tag}}
@@ -56,6 +56,6 @@ jobs:
 #         dotnet nuget push ./bin/Release/Common.Diddy.${versionNumber}.nupkg --api-key ${{ secrets.API_KEY_NUGET }} --source https://api.nuget.org/v3/index.json --no-symbols true
 #       working-directory: ${{env.working-directory}}/lambdas/Common
       
-#     - name: Build
-#       run: dotnet build --configuration Release --no-restore
-#       working-directory: ${{env.working-directory}}
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+      working-directory: ${{env.working-directory}}
