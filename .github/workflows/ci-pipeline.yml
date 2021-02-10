@@ -36,7 +36,7 @@ jobs:
       uses: "WyriHaximus/github-action-get-previous-tag@master"
       
     - name: Install dependencies
-      run: dotnet restore -v n
+      run: dotnet restore 
       working-directory: ${{env.working-directory}}
       
     # Build the Common nupkg 
