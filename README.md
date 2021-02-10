@@ -2,8 +2,6 @@
 
 This is the backend for the Diddy mobile app. It contains the infrastructure as code, using the AWS .NET CDK, as well as the code for all the lambda functions.
 
-# Screebera
-
 Workflow | Status
 -------- | -------
 CI | ![CI Pipeline](https://github.com/DiddyApp/diddy-backend/workflows/CI%20Pipeline/badge.svg)
