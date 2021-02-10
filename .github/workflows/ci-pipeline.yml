@@ -54,6 +54,6 @@ jobs:
 #         dotnet nuget push ./bin/Release/Common.Diddy.${versionNumber}.nupkg --api-key ${{ secrets.API_KEY_NUGET }} --source https://api.nuget.org/v3/index.json --no-symbols true
 #       working-directory: ${{env.working-directory}}/lambdas/Common
       
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-      working-directory: ${{env.working-directory}}
+#     - name: Build
+#       run: dotnet build --configuration Release --no-restore
+#       working-directory: ${{env.working-directory}}
