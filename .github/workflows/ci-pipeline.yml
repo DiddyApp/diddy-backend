@@ -48,7 +48,7 @@ jobs:
         dotnet pack -c Release /p:Version=$versionNumber 
       working-directory: ${{env.working-directory}}/lambdas/Common
         
-        
+#         
 #     - name: Publish NuGet Package
 #       run: |
 #         export version=${{steps.previoustag.outputs.tag}}
