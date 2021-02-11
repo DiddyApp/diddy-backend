@@ -46,7 +46,7 @@ jobs:
         export versionNumber=${version:1}
         dotnet build --configuration Release --no-restore
         echo versionNumber
-        dotnet pack -c Release /p:Version=$versionNumber 
+        dotnet pack -c Release /p:Version=$version 
       working-directory: ${{env.working-directory}}/lambdas/Common
         
 #     - name: Publish NuGet Package
