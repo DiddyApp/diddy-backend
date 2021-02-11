@@ -23,9 +23,38 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.101
+       
+    - name: Bump version and push tag
+      uses: anothrNick/github-tag-action@1.26.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        RELEASE_BRANCHES: main
+        WITH_V: true
+
+    - name: Get Previous tag
+      id: previoustag
+      uses: "WyriHaximus/github-action-get-previous-tag@master"
+      
     - name: Install dependencies
       run: dotnet restore
       working-directory: ${{env.working-directory}}
+      
+    - name: Pack NuGet
+      run: |
+        set -x
+        export version=${{steps.previoustag.outputs.tag}}
+        export versionNumber=${version:1}
+        dotnet build --configuration Release --no-restore
+        dotnet pack -c Release /p:Version=$version 
+      working-directory: ${{env.working-directory}}/lambdas/Common
+        
+    - name: Publish NuGet Package
+      run: |
+        export version=${{steps.previoustag.outputs.tag}}
+        export versionNumber=${version:1}
+        dotnet nuget push ./bin/Release/Common.Diddy.${version}.nupkg --api-key ${{ secrets.API_KEY_NUGET }} --source https://api.nuget.org/v3/index.json --no-symbols true
+      working-directory: ${{env.working-directory}}/lambdas/Common
+      
     - name: Build
       run: dotnet build --configuration Release --no-restore
       working-directory: ${{env.working-directory}}
