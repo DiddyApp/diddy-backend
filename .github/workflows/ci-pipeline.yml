@@ -47,12 +47,12 @@ jobs:
         dotnet pack -c Release /p:Version=$version 
       working-directory: ${{env.working-directory}}/lambdas/Common
         
-    - name: Publish NuGet Package
-      run: |
-        export version=${{steps.previoustag.outputs.tag}}
-        export versionNumber=${version:1}
-        dotnet nuget push ./bin/Release/Common.Diddy.${versionNumber}.nupkg --api-key ${{ secrets.API_KEY_NUGET }} --source https://api.nuget.org/v3/index.json --no-symbols true
-      working-directory: ${{env.working-directory}}/lambdas/Common
+#     - name: Publish NuGet Package
+#       run: |
+#         export version=${{steps.previoustag.outputs.tag}}
+#         export versionNumber=${version:1}
+#         dotnet nuget push ./bin/Release/Common.Diddy.${versionNumber}.nupkg --api-key ${{ secrets.API_KEY_NUGET }} --source https://api.nuget.org/v3/index.json --no-symbols true
+#       working-directory: ${{env.working-directory}}/lambdas/Common
       
     - name: Build
       run: dotnet build --configuration Release --no-restore
