@@ -50,6 +50,7 @@ jobs:
         
     - name: Publish NuGet Package
       run: |
+        set -x
         export version=${{steps.previoustag.outputs.tag}}
         export versionNumber=${version:1}
         dotnet nuget push ./bin/Release/Common.Diddy.${version}.nupkg --api-key ${{ secrets.API_KEY_NUGET }} --source https://api.nuget.org/v3/index.json --no-symbols true
