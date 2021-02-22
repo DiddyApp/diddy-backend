@@ -42,7 +42,7 @@ jobs:
     - name: Pack NuGet
       run: |
         set -x
-        export version=${{steps.previoustag.outputs.tag}}
+        export version=0.0.2
         export versionNumber=${version:1}
         dotnet build --configuration Release --no-restore
         dotnet pack -c Release /p:Version=$version 
